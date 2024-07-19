@@ -7,15 +7,7 @@ load_dotenv()
 
 app = FastAPI()
 
-DATABASE_URL = os.environ['DATABASE_URL']
-
-
-print("Here")
-print(DATABASE_URL)
-print(os.environ)
-
-print("Here2")
-print(os.getenv('DATABASE_URL'))
+DATABASE_URL = "postgresql://postgres:fSceYFwpAKnrziJgaaNJKLcDWKWToMkn@roundhouse.proxy.rlwy.net:27914/railway"
 
 def getDBConnection():
     return psycopg2.connect(DATABASE_URL)
