@@ -41,22 +41,7 @@ Follow these steps to set up the project:
 
 4. **Setup PostgreSQL**
 
-  sql
-  ```
-  CREATE DATABASE teal_data_scraped_raw;
-  CREATE USER shubhangi_bhatia WITH ENCRYPTED PASSWORD '123';
-  GRANT ALL PRIVILEGES ON DATABASE teal_data_scraped_raw TO shubhangi_bhatia;
-  Update the connection parameters in the script:
-  ```
-
-  python
-  ```
-  self.database_name = "teal_data_scraped_raw"
-  self.user = "shubhangi_bhatia"
-  self.password = "123"
-  self.host = "localhost"
-  self.port = "5432"
-  ```
+  Keep a postgres server running and change the credentials inside the db_connection() funciton in the etl_filr.py
 
 5. **Prepare the ZIP File**
 
