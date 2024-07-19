@@ -1,15 +1,15 @@
-### API Documentation
+## API Documentation
 
 This section provides details on the FastAPI service endpoints available in this project. The API provides endpoints to retrieve average prices for Airbnb listings based on different criteria.
 
-## Prerequisites
+### Prerequisites
 
 Ensure that you have the following setup:
 
 1. Database Connection: Make sure the DATABASE_URL is correctly set in your .env file or directly in the script. The URL should point to your PostgreSQL database.
 2. Environment Variables: Load environment variables using dotenv. Create a .env file in your project directory with the required variables, such as DATABASE_URL.
 
-## Running the FastAPI Service
+### Running the FastAPI Service
 
 To run the FastAPI service, execute the following command in your terminal from the project root directory:
 
@@ -17,7 +17,7 @@ To run the FastAPI service, execute the following command in your terminal from 
   uvicorn fast_api:app --reload
   ```
 
-## API Endpoints
+### API Endpoints
 
 1. Get Average Price by Neighbourhood and Room Type
 Endpoint: /average-price
@@ -82,6 +82,7 @@ json
 }
 ```
 
-Notes
+### Notes
+
 Ensure that the PostgreSQL server is running and accessible from the machine running the FastAPI service.
 Make sure that the psycopg2 and python-dotenv packages are installed in your virtual environment.
