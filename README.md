@@ -71,7 +71,7 @@ python etl_file.py run
 ```
 ### File Outputs
 
-1. Excel Files The pipeline will generate an avg_prices.xlsx file with the following sheets:
+1. Excel File: he pipeline will generate an avg_prices.xlsx file with the following sheets:
    a) avg_price: Average price per neighborhood.
    b) avg_price_group: Average price per neighborhood group.
    c) top_listings: Top 3 most expensive listings by neighborhood group and room type.
@@ -84,5 +84,7 @@ python etl_file.py run
 1. Database Connection Issues: Ensure that PostgreSQL is running and that the connection parameters in the script are correct.
 2. Missing Packages: Ensure all dependencies are installed. Check requirements.txt and re-run pip install -r requirements.txt if necessary.
 3. File Not Found: Ensure the ZIP file and the CSV file inside it are correctly named and located in the script’s directory.
-   
+
+### FastAPI Service
+In addition to the ETL pipeline, this repository includes a FastAPI service to interact with the processed Airbnb data. The FastAPI service provides endpoints to query average prices based on different criteria. find more documentation under api_documentation.md file.
 
