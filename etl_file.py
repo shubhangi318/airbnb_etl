@@ -20,7 +20,7 @@ class ETLFlow(FlowSpec):
     # Define the ZIP file path and PostgreSQL connection parameters. User can change the values for these parameters.
     zip_file_path = "kaggle_download.zip"
     table_name = "airbnb.raw_data"
-    database_name = "teal_data_scraped_raw"
+    database_name = "public"
     user = "shubhangi_bhatia"
     password = "123"
     host = "localhost"
@@ -30,6 +30,7 @@ class ETLFlow(FlowSpec):
         """
         A function to establish a connection to a PostgreSQL database.
         """
+        # Host a postgres server locally and enter the credentials here
         return psycopg2.connect(
             # 'postgresql://postgres:fSceYFwpAKnrziJgaaNJKLcDWKWToMkn@roundhouse.proxy.rlwy.net:27914/railway'
             dbname=self.database_name,
