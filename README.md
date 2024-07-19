@@ -35,9 +35,9 @@ Follow these steps to set up the project:
 
 3. **Install dependencies**
 
-  ```
-  pip install -r requirements.txt
-  ```
+   ```
+   pip install -r requirements.txt
+   ```
 
 4. **Setup PostgreSQL**
 
@@ -84,8 +84,5 @@ python etl_file.py run
 1. Database Connection Issues: Ensure that PostgreSQL is running and that the connection parameters in the script are correct.
 2. Missing Packages: Ensure all dependencies are installed. Check requirements.txt and re-run pip install -r requirements.txt if necessary.
 3. File Not Found: Ensure the ZIP file and the CSV file inside it are correctly named and located in the script’s directory.
-
-
-   
    
 
