@@ -9,6 +9,8 @@ app = FastAPI()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+print("Here")
+print(DATABASE_URL)
 
 def getDBConnection():
     return psycopg2.connect(DATABASE_URL)
