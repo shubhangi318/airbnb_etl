@@ -7,10 +7,12 @@ load_dotenv()
 
 app = FastAPI()
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.['DATABASE_URL']
+
 
 print("Here")
 print(DATABASE_URL)
+print(os.environ)
 
 def getDBConnection():
     return psycopg2.connect(DATABASE_URL)
