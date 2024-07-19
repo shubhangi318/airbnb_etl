@@ -41,7 +41,21 @@ Follow these steps to set up the project:
 
 4. **Setup PostgreSQL**
 
-  Keep a postgres server running and change the credentials inside the db_connection() funciton in the etl_filr.py
+  sql
+  ```
+   CREATE DATABASE create_your_own_db;
+   CREATE USER create_user WITH ENCRYPTED PASSWORD 'create_your_password';
+   GRANT ALL PRIVILEGES ON DATABASE create_your_own_db TO create_user;
+   ```
+
+   python
+   ```
+   self.database_name = "create_your_own_db"
+   self.user = "create_user"
+   self.password = "create_your_password"
+   self.host = "localhost"
+   self.port = "5432"
+   ```
 
 5. **Prepare the ZIP File**
 
