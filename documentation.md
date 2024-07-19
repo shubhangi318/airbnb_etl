@@ -1,9 +1,9 @@
-### Documentation
+## Documentation
 
 The ETL (Extract, Transform, Load) process for this project involves extracting data from a CSV file inside a ZIP archive, transforming the data by normalizing and calculating various metrics, and loading the results into a PostgreSQL database. Below is a step-by-step breakdown of the ETL process and data transformations.
 
 
-## 1. Data Extraction
+### 1. Data Extraction
 
 - Step: start
 - Description: This step extracts data from a CSV file contained within a ZIP archive.
@@ -11,7 +11,7 @@ The ETL (Extract, Transform, Load) process for this project involves extracting 
   - Opens the ZIP file and reads the CSV file into a pandas DataFrame.
   - Loads the DataFrame into a PostgreSQL table named airbnb.raw_data.
  
-## 2. Data Loading into PostgreSQL
+### 2. Data Loading into PostgreSQL
 
 - Step: start
 - Description: The data from the CSV file is loaded into a PostgreSQL table.
@@ -21,7 +21,7 @@ The ETL (Extract, Transform, Load) process for this project involves extracting 
   - Creates a table airbnb.raw_data with columns that correspond to the CSV file structure.
   - Uses the SQL COPY command to efficiently load data from the CSV buffer into the PostgreSQL table.
  
-## 3. Data Normalization
+### 3. Data Normalization
 
 - Step: normalize_data
 - Description: This step normalizes the raw data by creating several new tables to store distinct values, thereby reducing redundancy and improving data integrity.
@@ -70,7 +70,7 @@ The ETL (Extract, Transform, Load) process for this project involves extracting 
          - calculated_host_listings_count (INT): Number of listings by the host.
          - availability_365 (INT): Number of days the listing is available in a year.
 
-## 4. Data Transformation
+### 4. Data Transformation
 
 1. Step: transform_price_per_neighborhood
    - Description: Calculates the average price per neighborhood and saves the result in an Excel file.
@@ -99,7 +99,7 @@ The ETL (Extract, Transform, Load) process for this project involves extracting 
      - Filters the top 3 listings per neighborhood group.
      - Saves the results to the Excel file under a new sheet named pop_listings.
        
-## 5. Data Visualization
+### 5. Data Visualization
 
  1. Step: aggregate_heatmap
 - Description: Aggregates price data based on latitude and longitude bins to prepare for a heatmap visualization.
