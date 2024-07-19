@@ -7,21 +7,11 @@ load_dotenv()
 
 app = FastAPI()
 
-DBNAME = os.getenv("DBNAME")
-USER = os.getenv("USER")
-HOST = os.getenv("HOST")
-PORT = os.getenv("PORT")
-PASSWORD = os.getenv("PASSWORD")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 def getDBConnection():
-    return psycopg2.connect(
-        dbname=DBNAME,
-        user=USER,
-        host=HOST,
-        port=PORT,
-        password=PASSWORD
-    )
+    return psycopg2.connect(DATABASE_URL)
 
 schema_name = "airbnb"
 
