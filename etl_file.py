@@ -31,6 +31,7 @@ class ETLFlow(FlowSpec):
         A function to establish a connection to a PostgreSQL database.
         """
         return psycopg2.connect(
+            # 'postgresql://postgres:fSceYFwpAKnrziJgaaNJKLcDWKWToMkn@roundhouse.proxy.rlwy.net:27914/railway'
             dbname=self.database_name,
             user=self.user,
             password=self.password,
@@ -151,9 +152,14 @@ class ETLFlow(FlowSpec):
                     # Create table for normalized host data
                     cur.execute("""
                         CREATE TABLE airbnb.host_data (
-                        host_id INT PRIMARY KEY,
-                        host_name TEXT
-                        )
+                            host_id INT PRIMARY KEY,
+                            host_name TEXT
+                            )
+                    """)
+
+                    cur.execute("""
+                        CREATE INDEX idx_host_name
+                        ON airbnb.host_data (host_name)
                     """)
 
                     cur.execute("""
@@ -165,9 +171,14 @@ class ETLFlow(FlowSpec):
                     # Create table for normalized neighbourhood groups
                     cur.execute("""
                         CREATE TABLE airbnb.neighbourhood_group_data (
-                        neighbourhood_group_id SERIAL PRIMARY KEY,
-                        neighbourhood_group TEXT
-                        )
+                            neighbourhood_group_id SERIAL PRIMARY KEY,
+                            neighbourhood_group TEXT
+                            )
+                    """)
+
+                    cur.execute("""
+                        CREATE INDEX idx_neighbourhood_group
+                        ON airbnb.neighbourhood_group_data (neighbourhood_group)
                     """)
 
                     cur.execute("""
@@ -179,11 +190,22 @@ class ETLFlow(FlowSpec):
                     # Create table for normalized neighbourhood data with foreign key to neighbourhood_group_data
                     cur.execute("""
                         CREATE TABLE airbnb.neighbourhood_data (
-                        neighbourhood_id SERIAL PRIMARY KEY,
-                        neighbourhood TEXT,
-                        neighbourhood_group_id INT,
-                        FOREIGN KEY (neighbourhood_group_id) REFERENCES airbnb.neighbourhood_group_data(neighbourhood_group_id)
+                            neighbourhood_id SERIAL PRIMARY KEY,
+                            neighbourhood TEXT,
+                            neighbourhood_group_id INT,
+                            FOREIGN KEY (neighbourhood_group_id) REFERENCES airbnb.neighbourhood_group_data(neighbourhood_group_id)
                         )
+                    """)
+
+                    cur.execute("""
+                        CREATE INDEX idx_neighbourhood_group_id
+                        ON airbnb.neighbourhood_data (neighbourhood_group_id)
+                    """)
+
+                    # Create an index on neighbourhood column
+                    cur.execute("""
+                        CREATE INDEX idx_neighbourhood
+                        ON airbnb.neighbourhood_data (neighbourhood)
                     """)
 
                     cur.execute("""
@@ -197,9 +219,14 @@ class ETLFlow(FlowSpec):
                     # Create table for normalized room type data
                     cur.execute("""
                         CREATE TABLE airbnb.room_type_data (
-                        room_type_id SERIAL PRIMARY KEY,
-                        room_type TEXT
+                            room_type_id SERIAL PRIMARY KEY,
+                            room_type TEXT
                         )
+                    """)
+
+                    cur.execute("""
+                        CREATE INDEX idx_room_type
+                        ON airbnb.room_type_data (room_type)
                     """)
 
                     cur.execute("""
@@ -211,24 +238,41 @@ class ETLFlow(FlowSpec):
                     # Create table for normalized raw data with foreign keys to other normalized tables
                     cur.execute("""
                         CREATE TABLE airbnb.raw_data_normalised (
-                        id INT PRIMARY KEY,
-                        name TEXT,
-                        host_id INT,
-                        neighbourhood_id INT,
-                        latitude FLOAT,
-                        longitude FLOAT,
-                        room_type_id INT,
-                        price INT,
-                        minimum_nights INT,
-                        number_of_reviews INT,
-                        last_review DATE,
-                        reviews_per_month FLOAT,
-                        calculated_host_listings_count INT,
-                        availability_365 INT,
-                        FOREIGN KEY (host_id) REFERENCES airbnb.host_data(host_id),
-                        FOREIGN KEY (neighbourhood_id) REFERENCES airbnb.neighbourhood_data(neighbourhood_id),
-                        FOREIGN KEY (room_type_id) REFERENCES airbnb.room_type_data(room_type_id)
+                            id INT PRIMARY KEY,
+                            name TEXT,
+                            host_id INT,
+                            neighbourhood_id INT,
+                            latitude FLOAT,
+                            longitude FLOAT,
+                            room_type_id INT,
+                            price INT,
+                            minimum_nights INT,
+                            number_of_reviews INT,
+                            last_review DATE,
+                            reviews_per_month FLOAT,
+                            calculated_host_listings_count INT,
+                            availability_365 INT,
+                            FOREIGN KEY (host_id) REFERENCES airbnb.host_data(host_id),
+                            FOREIGN KEY (neighbourhood_id) REFERENCES airbnb.neighbourhood_data(neighbourhood_id),
+                            FOREIGN KEY (room_type_id) REFERENCES airbnb.room_type_data(room_type_id)
                         )
+                    """)
+
+                    cur.execute("""
+                        CREATE INDEX idx_host_id
+                        ON airbnb.raw_data_normalised (host_id)
+                    """)
+
+                    # Create an index on neighbourhood_id
+                    cur.execute("""
+                        CREATE INDEX idx_neighbourhood_id
+                        ON airbnb.raw_data_normalised (neighbourhood_id)
+                    """)
+
+                    # Create an index on room_type_id
+                    cur.execute("""
+                        CREATE INDEX idx_room_type_id
+                        ON airbnb.raw_data_normalised (room_type_id)
                     """)
 
                     cur.execute("""
@@ -501,7 +545,7 @@ class ETLFlow(FlowSpec):
         """
         Generate a heatmap by aggregating price data based on latitude and longitude bins.
         """
-       
+
         conn = self.dbConnection()
         cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
@@ -544,12 +588,11 @@ class ETLFlow(FlowSpec):
         # Create a pivot table for the heatmap
         self.heatmap_data = binned_df.pivot_table(
             index='lat_bin', columns='lon_bin', values='price')
-        
-        logger.info(
-                "Heatmap data created and populated successfully.")
-        
-        self.next(self.plot_heatmap)
 
+        logger.info(
+            "Heatmap data created and populated successfully.")
+
+        self.next(self.plot_heatmap)
 
     @step
     def plot_heatmap(self):
@@ -574,12 +617,13 @@ class ETLFlow(FlowSpec):
 
         logger.info(
             "Plot created and saved successfully.")
-        
+
         self.next(self.end)
 
     @step
     def end(self):
         pass
+
 
 if __name__ == '__main__':
     ETLFlow()
