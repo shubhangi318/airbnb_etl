@@ -14,6 +14,9 @@ print("Here")
 print(DATABASE_URL)
 print(os.environ)
 
+print("Here2")
+print(os.getenv('DATABASE_URL'))
+
 def getDBConnection():
     return psycopg2.connect(DATABASE_URL)
 
