@@ -7,7 +7,7 @@ load_dotenv()
 
 app = FastAPI()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 print("Here")
 print(DATABASE_URL)
