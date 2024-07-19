@@ -104,3 +104,35 @@ async def getAverageNeighbourhoodPrice(neighbourhood: str = None, room_type: str
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Error during processing average price per room type: {e}")
+
+
+# average price of a neighbourhood based on latitude and longitude
+# determined as the average price of listings within a 0.01 lat long range
+@app.get("/average-price-lat-long")
+async def getAveragePriceByLatLong(latitude: float, longitude: float):
+    try:
+        # Connect to PostgreSQL
+        conn = getDBConnection()
+        cur = conn.cursor()
+
+        # Average price per neighborhood / room type
+        query = """
+        SELECT
+            AVG(r.price) AS average_price
+        FROM
+            airbnb.raw_data_normalised r
+        WHERE
+            r.latitude BETWEEN {} AND {} AND r.longitude BETWEEN {} AND {} 
+        """.format(latitude-0.01, latitude+0.01, longitude-0.01, longitude+0.01)
+
+        cur.execute(query)
+        row = cur.fetchone()
+
+        if row and row[0]:
+            return row[0]
+        else:
+            raise HTTPException(status_code=404, detail="No listings found in the range")
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error during processing average price: {e}")
