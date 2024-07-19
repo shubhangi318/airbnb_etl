@@ -1,17 +1,26 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 import psycopg2
-import pandas as pd
-from psycopg2.extras import execute_values
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = FastAPI()
 
+DBNAME = os.getenv("DBNAME")
+USER = os.getenv("USER")
+HOST = os.getenv("HOST")
+PORT = os.getenv("PORT")
+PASSWORD = os.getenv("PASSWORD")
+
+
 def getDBConnection():
     return psycopg2.connect(
-        dbname="shubhangi",
-        user="postgres",
-        host="localhost",
-        port="5432"
+        dbname=DBNAME,
+        user=USER,
+        host=HOST,
+        port=PORT,
+        password=PASSWORD
     )
 
 schema_name = "airbnb"
