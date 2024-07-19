@@ -1,6 +1,6 @@
-### ETL Pipeline for Airbnb Data
+## ETL Pipeline for Airbnb Data
 
-## Overview
+### Overview
 
 This project is an ETL (Extract, Transform, Load) pipeline designed to process Airbnb data. The pipeline includes steps to:
 
@@ -9,14 +9,14 @@ This project is an ETL (Extract, Transform, Load) pipeline designed to process A
 3. Normalize the data into structured tables.
 4. Transform the data to calculate average prices, identify top listings, and generate heatmaps.
 
-## Prerequisites
+### Prerequisites
 Before you run the ETL pipeline, make sure you have the following installed:
 
 1. Python 3.7 or later
 2. PostgreSQL
 3. Pip (Python package installer)
 
-## Setup
+### Setup
 Follow these steps to set up the project:
 
 1. **Clone the respository**
